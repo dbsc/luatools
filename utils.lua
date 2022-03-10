@@ -21,13 +21,31 @@ end
 
 function M.execute(cmd)
     local file = io.popen(cmd)
-    local output = file:read('a')
+    local output = file:read("a")
     local _, _, return_code = file:close()
 
     return {
         output,
         return_code
     }
+end
+
+
+function M.function_nargs(_function)
+    if type(_function) ~= "function" then
+        local fmt = "%s is not a function"
+        error(fmt:format(tostring(_function)))
+    end
+    return debug.getinfo(_function).nparams
+end
+
+
+function M.function_address(_function)
+    if type(_function) ~= "function" then
+        local fmt = "%s is not a function"
+        error(fmt:format(tostring(_function)))
+    end
+    return string.match(tostring(_function), "0x.*")
 end
 
 

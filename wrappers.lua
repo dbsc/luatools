@@ -3,31 +3,32 @@ local M = {}
 local validators = require "validators"
 
 
-function M.newcommand(cmd, def, args, opt)
-    validators.validate_command_name(cmd)
-    args = args or 0
+function M.newcommand(name, body, nargs, default)
+    validators.validate_command_name(name)
+    nargs = nargs or 0
 
     local fmt, str
-    if opt == nil then
+    if default == nil then
         fmt = [[\newcommand{\%s}[%d]{%s}]]
-        str = fmt:format(cmd, args, def)
+        str = fmt:format(name, nargs, body)
     else
         fmt = [[\newcommand{\%s}[%d][%s]{%s}]]
-        str = fmt:format(cmd, args, opt, def)
+        str = fmt:format(name, nargs, default, body)
     end
 
-    tex.print(str)
+    return str
 end
 
 
 function M.directlua(str)
     local fmt = [[\directlua{%s}]]
-    tex.print(fmt:format(str))
+    return fmt:format(str)
 end
 
 
 function M.luaescapestring(str)
-    return [[\luaescapestring{str}]]
+    local fmt = [[\luaescapestring{%s}]]
+    return fmt:format(str)
 end
 
 
