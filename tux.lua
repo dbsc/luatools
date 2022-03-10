@@ -6,17 +6,17 @@ P._VERSION = "0.0.1"
 
 P._functions = {}
 
+-- TODO: include `luapackageloader` package in this script
+
+base64 = require "base64"
 
 local wrappers = require "wrappers"
 local utils = require "utils"
 
 
 local function function_string(_function)
-    local address = utils.function_address(_function)
-    P._functions[address] = _function
-    local fmt = "%s._functions['%s']"
-
-    return fmt:format(P._NAME, address)
+    local encoded = base64.encode(string.dump(_function))
+    return string.format([[load(base64.decode("%s"))]], encoded)
 end
 
 
@@ -40,6 +40,11 @@ function P.newcommand(name, action)
 
     local texcode = wrappers.newcommand(name, body, nargs)
     tex.print(texcode)
+end
+
+
+function P.usepackage(name)
+    tex.print(wrappers.usepackage(name))
 end
 
 

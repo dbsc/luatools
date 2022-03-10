@@ -32,4 +32,10 @@ function M.luaescapestring(str)
 end
 
 
+function M.usepackage(str)
+    local fmt = [[\usepackage{%s}]]
+    return fmt:format(str)
+end
+
+
 return M
