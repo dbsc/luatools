@@ -41,7 +41,7 @@ end
 
 
 function M.function_nargs(_function)
-    if M.isfunction(_function) then
+    if not M.isfunction(_function) then
         local fmt = "%s is not a function"
         error(fmt:format(tostring(_function)))
     end
@@ -50,7 +50,7 @@ end
 
 
 function M.function_address(_function)
-    if M.isfunction(_function) then
+    if not M.isfunction(_function) then
         local fmt = "%s is not a function"
         error(fmt:format(tostring(_function)))
     end
