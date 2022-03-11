@@ -4,8 +4,6 @@ tux = P
 P._NAME = "tux"
 P._VERSION = "0.0.1"
 
-P._functions = {}
-
 require("tux.searchers").patch()
 
 base64 = require "base64"
