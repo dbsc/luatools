@@ -24,10 +24,7 @@ function M.execute(cmd)
     local output = file:read("a")
     local _, _, return_code = file:close()
 
-    return {
-        output,
-        return_code
-    }
+    return output, return_code
 end
 
 
