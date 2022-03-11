@@ -28,8 +28,20 @@ function M.execute(cmd)
 end
 
 
+function M.iscallable(obj)
+    local cond1 = type()
+    local cond2 = (getmetatable(obj) or {}).__call
+    return cond1 or cond2
+end
+
+
+function M.isfunction(obj)
+    return type(obj) == "function"
+end
+
+
 function M.function_nargs(_function)
-    if type(_function) ~= "function" then
+    if M.isfunction(_function) then
         local fmt = "%s is not a function"
         error(fmt:format(tostring(_function)))
     end
@@ -38,7 +50,7 @@ end
 
 
 function M.function_address(_function)
-    if type(_function) ~= "function" then
+    if M.isfunction(_function) then
         local fmt = "%s is not a function"
         error(fmt:format(tostring(_function)))
     end
