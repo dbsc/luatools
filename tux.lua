@@ -6,7 +6,7 @@ P._VERSION = "0.0.1"
 
 P._functions = {}
 
--- TODO: include `luapackageloader` package in this script
+require("searchers").patch()
 
 base64 = require "base64"
 
