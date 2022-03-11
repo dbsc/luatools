@@ -1,4 +1,4 @@
-P = {}
+local P = {}
 tux = P
 
 P._NAME = "tux"
@@ -6,12 +6,12 @@ P._VERSION = "0.0.1"
 
 P._functions = {}
 
-require("searchers").patch()
+require("tux.searchers").patch()
 
 base64 = require "base64"
 
-local wrappers = require "wrappers"
-local utils = require "utils"
+local wrappers = require "tux.wrappers"
+local utils = require "tux.utils"
 
 
 local function function_string(_function)

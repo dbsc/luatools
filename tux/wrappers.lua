@@ -1,6 +1,6 @@
 local M = {}
 
-local validators = require "validators"
+local validators = require "tux.validators"
 
 
 function M.newcommand(name, body, nargs, default)
