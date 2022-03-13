@@ -1,7 +1,14 @@
 local M = {}
 
 
-local function create_searcher(path)
+local function concat_paths(...)
+    return table.concat({...}, ';')
+end
+
+
+local function create_searcher(...)
+    local path = concat_paths(...)
+
     local function searcher(name)
         local file, err = package.searchpath(name, path)
         if not err then
@@ -34,12 +41,24 @@ local function concat_searchers(...)
 end
 
 
-function M.patch()
-    local luasearcher = create_searcher(package.path)
-    local cluasearcher = create_searcher(package.cpath)
+function M.patch(path, cpath)
+    local luasearcher = create_searcher(package.path, path)
+    local cluasearcher = create_searcher(package.cpath, cpath)
 
     package.searchers[2] = concat_searchers(package.searchers[2], luasearcher)
     package.searchers[3] = concat_searchers(package.searchers[3], cluasearcher)
+end
+
+
+function M.dirpatch(dir)
+    if dir:sub(-1) ~= '/' then
+        dir = dir .. '/'
+    end
+
+    local path = dir .. '?.lua;' .. dir .. '?/init.lua'
+    local cpath = dir .. '?.so'
+
+    M.patch(path, cpath)
 end
 
 
