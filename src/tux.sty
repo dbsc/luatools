@@ -1,2 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{tuxedo}[2022/03/02 A Lua wrapper for writing LuaTex documents]
+\ProvidesPackage{tux}[2022/03/02 A Lua wrapper for writing LuaTex documents]
+
+\directlua{
+    require("searchers").patch()
+    require("tux")
+}

@@ -4,8 +4,6 @@ tux = P
 P._NAME = "tux"
 P._VERSION = "0.0.1"
 
-require("tux.searchers").patch()
-
 base64 = require "base64"
 
 local wrappers = require "tux.wrappers"
