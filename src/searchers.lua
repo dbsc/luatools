@@ -1,18 +1,20 @@
 local M = {}
 
 
-local function concat_paths(...)
-    return table.concat({...}, ';')
-end
-
-
-local function create_searcher(...)
-    local path = concat_paths(...)
+local function create_searcher(path)
+    local function loadlib(file, name)
+        print(file)
+        if file:match("^.*%.lua$") then
+            return loadfile(file)
+        elseif file:match("^.*%.so$") then
+            return package.loadlib(file, "luaopen_" .. name)
+        end
+    end
 
     local function searcher(name)
         local file, err = package.searchpath(name, path)
         if not err then
-            return loadfile(file)
+            return loadlib(file, name)
         end
     end
 
@@ -42,8 +44,8 @@ end
 
 
 function M.patch(path, cpath)
-    local luasearcher = create_searcher(package.path, path)
-    local cluasearcher = create_searcher(package.cpath, cpath)
+    local luasearcher = create_searcher(path)
+    local cluasearcher = create_searcher(cpath)
 
     package.searchers[2] = concat_searchers(package.searchers[2], luasearcher)
     package.searchers[3] = concat_searchers(package.searchers[3], cluasearcher)
@@ -59,6 +61,11 @@ function M.dirpatch(dir)
     local cpath = dir .. '?.so'
 
     M.patch(path, cpath)
+end
+
+
+function M.envpatch()
+    M.patch(package.path, package.cpath)
 end
 
 
