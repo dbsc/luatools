@@ -1,6 +1,6 @@
 local M = {}
 
-local validators = require "tux.validators"
+local validators = require "validators"
 
 
 local function texcmd(cmd, args, nopts, pos)

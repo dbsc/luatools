@@ -4,10 +4,13 @@ tux = P
 P._NAME = "tux"
 P._VERSION = "0.0.1"
 
+P.variables = {}
+
 base64 = require "base64"
 
-local wrappers = require "tux.wrappers"
-local utils = require "tux.utils"
+local wrappers = require "wrappers"
+local utils = require "utils"
+local variable = require "variable"
 
 
 local function function_string(_function)
@@ -39,9 +42,25 @@ function P.newcommand(name, action)
 end
 
 
-function P.usepackage(name)
-    tex.print(wrappers.usepackage(name))
+function P.createvar(name)
+    local luaname = variable.luaname(name)
+    local texname = variable.texname(name)
+
+    local readname = texname
+    local writename = '@' .. texname
+
+    local function read_action()
+        return P.variables[luaname]
+    end
+    local function write_action(value)
+        P.variables[luaname] = value
+    end
+
+    P.newcommand(readname, read_action)
+    P.newcommand(writename, write_action)
 end
 
+
+pcall(function () require(tex.jobname) end)
 
 return P
