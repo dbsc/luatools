@@ -15,6 +15,8 @@ local function create_searcher(path)
         local file, err = package.searchpath(name, path)
         if not err then
             return loadlib(file, name)
+        else
+            error(err)
         end
     end
 
@@ -47,8 +49,8 @@ function M.patch(path, cpath)
     local luasearcher = create_searcher(path)
     local cluasearcher = create_searcher(cpath)
 
-    package.searchers[2] = concat_searchers(package.searchers[2], luasearcher)
-    package.searchers[3] = concat_searchers(package.searchers[3], cluasearcher)
+    package.searchers[2] = concat_searchers(luasearcher, package.searchers[2])
+    package.searchers[3] = concat_searchers(cluasearcher, package.searchers[3])
 end
 
 
