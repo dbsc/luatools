@@ -2,6 +2,6 @@
 \ProvidesPackage{tux}[2022/03/02 A Lua wrapper for writing LuaTex documents]
 
 \directlua{
-    require("searchers").patch()
+    require("searchers").envpatch()
     require("tux")
 }
