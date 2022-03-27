@@ -23,7 +23,7 @@ end
 
 
 function M.newcommand(name, body, nargs, default)
-    validators.validate_command_name(name)
+    validators.validate_texcmd_name(name)
     nargs = nargs or 0
 
     local args, nopts, pos
